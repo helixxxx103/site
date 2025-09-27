@@ -1,15 +1,14 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <title>激怒 - Raging Brigade</title>
-  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      
       document.title = "激怒 - Raging Brigade";
 
-      
       const style = document.createElement("style");
       style.textContent = `
         :root{
@@ -55,14 +54,12 @@
           user-select: none;
         }
 
-        
         @keyframes flashDimWhite {
           0%   { color: #ffffff; }
           50%  { color: #666666; }
           100% { color: #ffffff; }
         }
 
-        
         #description {
           margin: 0.6rem auto 1.0rem auto;
           color: var(--muted);
@@ -79,7 +76,6 @@
           to { opacity: 1; transform: translateY(0); }
         }
 
-        
         #links {
           margin-top: 0.8rem;
           display:flex;
@@ -103,58 +99,37 @@
           to { opacity:1; }
         }
 
-        
         #hint {
           margin-top:1.2rem;
           color:#8f8f8f;
-          font-size:0.85rem;
+          font-size:0.95rem;
           opacity:0;
           animation: fadeIn 1s ease forwards;
           animation-delay: 1.4s;
         }
 
-        
         audio { display:none; }
       `;
       document.head.appendChild(style);
 
-      
-      const audio = document.createElement("audio");
-      audio.src = "background.mp3";
-      audio.loop = true;
-      document.body.appendChild(audio);
-
-      
-      const startMusicOnInteraction = () => {
-        audio.play().catch(()=>{});
-        document.removeEventListener('click', startMusicOnInteraction);
-        document.removeEventListener('keydown', startMusicOnInteraction);
-      };
-      document.addEventListener('click', startMusicOnInteraction);
-      document.addEventListener('keydown', startMusicOnInteraction);
-
-      
       const wrapper = document.createElement('div');
       wrapper.id = 'wrapper';
 
-      
       const title = document.createElement('h1');
       title.textContent = "激怒 - Raging Brigade";
       wrapper.appendChild(title);
 
-      
       const description = document.createElement('p');
       description.id = 'description';
       description.innerText = "The Raging Brigade is a group dedicated to anti-degeneracy, and anti-religionophobia.";
       wrapper.appendChild(description);
 
-      
       const linksDiv = document.createElement('div');
       linksDiv.id = 'links';
 
       const links = [
         { text: "YouTube", url: "https://youtube.com/@err103" },
-        { text: "Telegram", url: "https://t.me/yourchannel" },
+        { text: "Telegram", url: "https://t.me/ragingbrigade" },
         { text: "Discord", url: "https://discord.gg/DDJwqqAsf2" }
       ];
 
@@ -163,26 +138,22 @@
         a.className = 'link';
         a.href = item.url;
         a.textContent = item.text;
-        
         linksDiv.appendChild(a);
       });
 
       wrapper.appendChild(linksDiv);
 
-      
       const hint = document.createElement('div');
       hint.id = 'hint';
-      hint.textContent = "Press any key or click to enable audio (if available).";
+      
+      hint.textContent = "Email Contact: balcontact@vbv.cards";
       wrapper.appendChild(hint);
 
       document.body.appendChild(wrapper);
 
-      
       window.__setDescriptionText = (txt) => {
         description.textContent = String(txt || '');
       };
-
-      
     });
   </script>
 </head>
