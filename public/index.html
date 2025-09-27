@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>激怒 - Raging Brigade</title>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      
+      document.title = "激怒 - Raging Brigade";
+
+      
+      const style = document.createElement("style");
+      style.textContent = `
+        :root{
+          --bg:#000;
+          --text:#ffffff;
+          --dim:#666666;
+          --muted: #cfcfcf;
+        }
+        html,body{
+          height:100%;
+          margin:0;
+          padding:0;
+          background:var(--bg);
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          -webkit-font-smoothing:antialiased;
+          -moz-osx-font-smoothing:grayscale;
+        }
+
+        body{
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          text-align:center;
+          color:var(--text);
+          overflow:hidden;
+          padding:2rem;
+          box-sizing:border-box;
+          flex-direction:column;
+        }
+
+        #wrapper{
+          max-width:900px;
+          width:100%;
+        }
+
+        h1 {
+          margin:0 0 0.6rem 0;
+          font-size:3rem;
+          font-weight:700;
+          line-height:1.05;
+          animation: flashDimWhite 0.2s linear infinite;
+          -webkit-user-select: none;
+          user-select: none;
+        }
+
+        
+        @keyframes flashDimWhite {
+          0%   { color: #ffffff; }
+          50%  { color: #666666; }
+          100% { color: #ffffff; }
+        }
+
+        
+        #description {
+          margin: 0.6rem auto 1.0rem auto;
+          color: var(--muted);
+          font-size: 1.05rem;
+          line-height: 1.5;
+          max-width: 72ch;
+          opacity: 0;
+          transform: translateY(6px);
+          animation: fadeInUp 1s ease forwards;
+          animation-delay: 0.6s;
+        }
+
+        @keyframes fadeInUp {
+          to { opacity: 1; transform: translateY(0); }
+        }
+
+        
+        #links {
+          margin-top: 0.8rem;
+          display:flex;
+          gap:1.0rem;
+          flex-direction:column;
+          align-items:center;
+          justify-content:center;
+          opacity:0;
+          animation: fadeIn 1s ease forwards;
+          animation-delay: 1.0s;
+        }
+
+        a.link {
+          color:var(--text);
+          text-decoration:underline;
+          font-size:1.1rem;
+          padding:0.2rem 0.4rem;
+        }
+
+        @keyframes fadeIn {
+          to { opacity:1; }
+        }
+
+        
+        #hint {
+          margin-top:1.2rem;
+          color:#8f8f8f;
+          font-size:0.85rem;
+          opacity:0;
+          animation: fadeIn 1s ease forwards;
+          animation-delay: 1.4s;
+        }
+
+        
+        audio { display:none; }
+      `;
+      document.head.appendChild(style);
+
+      
+      const audio = document.createElement("audio");
+      audio.src = "background.mp3";
+      audio.loop = true;
+      document.body.appendChild(audio);
+
+      
+      const startMusicOnInteraction = () => {
+        audio.play().catch(()=>{});
+        document.removeEventListener('click', startMusicOnInteraction);
+        document.removeEventListener('keydown', startMusicOnInteraction);
+      };
+      document.addEventListener('click', startMusicOnInteraction);
+      document.addEventListener('keydown', startMusicOnInteraction);
+
+      
+      const wrapper = document.createElement('div');
+      wrapper.id = 'wrapper';
+
+      
+      const title = document.createElement('h1');
+      title.textContent = "激怒 - Raging Brigade";
+      wrapper.appendChild(title);
+
+      
+      const description = document.createElement('p');
+      description.id = 'description';
+      description.innerText = "The Raging Brigade is a group dedicated to anti-degeneracy, and anti-religionophobia.";
+      wrapper.appendChild(description);
+
+      
+      const linksDiv = document.createElement('div');
+      linksDiv.id = 'links';
+
+      const links = [
+        { text: "YouTube", url: "https://youtube.com/@err103" },
+        { text: "Telegram", url: "https://t.me/yourchannel" },
+        { text: "Discord", url: "https://discord.gg/DDJwqqAsf2" }
+      ];
+
+      links.forEach(item => {
+        const a = document.createElement('a');
+        a.className = 'link';
+        a.href = item.url;
+        a.textContent = item.text;
+        
+        linksDiv.appendChild(a);
+      });
+
+      wrapper.appendChild(linksDiv);
+
+      
+      const hint = document.createElement('div');
+      hint.id = 'hint';
+      hint.textContent = "Press any key or click to enable audio (if available).";
+      wrapper.appendChild(hint);
+
+      document.body.appendChild(wrapper);
+
+      
+      window.__setDescriptionText = (txt) => {
+        description.textContent = String(txt || '');
+      };
+
+      
+    });
+  </script>
+</head>
+<body>
+</body>
+</html>
