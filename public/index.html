@@ -4,126 +4,385 @@
   <meta charset="utf-8" />
   <title>激怒 - Raging Brigade</title>
   <link rel="icon" type="image/x-icon" href="/favicon.png" />
+  <style>
+    :root{
+      --bg:#000;
+      --text:#ffffff;
+      --dim:#666666;
+      --muted: #cfcfcf;
+      --accent: #ff2a2a;
+    }
+    
+    * {
+      box-sizing: border-box;
+    }
+    
+    html,body{
+      height:100%;
+      margin:0;
+      padding:0;
+      background:var(--bg);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+
+    body{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      color:var(--text);
+      padding:2rem;
+      box-sizing:border-box;
+      flex-direction:column;
+      min-height: 100vh;
+    }
+
+    #wrapper{
+      max-width:900px;
+      width:100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      margin:0 0 0.6rem 0;
+      font-size:3rem;
+      font-weight:700;
+      line-height:1.05;
+      animation: flashDimWhite 0.2s linear infinite;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    
+    nav {
+      margin: 1.5rem 0;
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+    }
+    
+    nav a {
+      color: var(--text);
+      text-decoration: none;
+      font-size: 1.2rem;
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--dim);
+      border-radius: 4px;
+      transition: all 0.3s ease;
+    }
+    
+    nav a:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #000;
+    }
+
+    @keyframes flashDimWhite {
+      0%   { color: #ffffff; }
+      50%  { color: #666666; }
+      100% { color: #ffffff; }
+    }
+
+    #home-description {
+      margin: 0.6rem auto 1.0rem auto;
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.5;
+      max-width: 72ch;
+      opacity: 0;
+      transform: translateY(6px);
+      animation: fadeInUp 1s ease forwards;
+      animation-delay: 0.6s;
+    }
+
+    @keyframes fadeInUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    #links {
+      margin-top: 0.8rem;
+      display:flex;
+      gap:1.0rem;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      opacity:0;
+      animation: fadeIn 1s ease forwards;
+      animation-delay: 1.0s;
+    }
+
+    a.link {
+      color:var(--text);
+      text-decoration:underline;
+      font-size:1.1rem;
+      padding:0.2rem 0.4rem;
+    }
+
+    @keyframes fadeIn {
+      to { opacity:1; }
+    }
+
+    #hint {
+      margin-top:1.2rem;
+      color:#8f8f8f;
+      font-size:0.85rem;
+      opacity:0;
+      animation: fadeIn 1s ease forwards;
+      animation-delay: 1.4s;
+    }
+
+    audio { display:none; }
+    
+    /* Scrollable content styles */
+    #content-section {
+      margin-top: 2rem;
+      text-align: left;
+      max-height: 400px;
+      overflow-y: auto;
+      padding: 1rem;
+      border: 1px solid var(--dim);
+      border-radius: 8px;
+      width: 100%;
+      display: none;
+    }
+    
+    .content-box {
+      margin-bottom: 1.5rem;
+      padding: 1rem;
+      background: rgba(30, 30, 30, 0.7);
+      border-radius: 8px;
+      border-left: 3px solid var(--accent);
+    }
+    
+    .content-box h3 {
+      margin-top: 0;
+      color: var(--accent);
+    }
+    
+    .content-box img {
+      max-width: 100%;
+      border-radius: 4px;
+      margin: 0.5rem 0;
+      height: 200px;
+      object-fit: cover;
+    }
+    
+    .content-box p {
+      min-height: 60px;
+    }
+    
+    /* Scrollbar styling */
+    #content-section::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    #content-section::-webkit-scrollbar-track {
+      background: #111;
+    }
+    
+    #content-section::-webkit-scrollbar-thumb {
+      background: var(--accent);
+      border-radius: 4px;
+    }
+    
+    #content-section::-webkit-scrollbar-thumb:hover {
+      background: #ff4d4d;
+    }
+    
+    /* Clips page styles */
+    #clips-page {
+      display: none;
+      width: 100%;
+      max-width: 900px;
+      margin-top: 2rem;
+    }
+    
+    #clips-page h2 {
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+    }
+    
+    #clips-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+    
+    .clip-box {
+      background: rgba(30, 30, 30, 0.7);
+      border-radius: 8px;
+      padding: 1rem;
+      border: 1px solid var(--dim);
+    }
+    
+    .clip-box h3 {
+      margin-top: 0;
+      color: var(--accent);
+      text-align: center;
+    }
+    
+    .media-container {
+      width: 100%;
+      height: 180px;
+      background: #222;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      margin-bottom: 0.5rem;
+    }
+    
+    .media-placeholder {
+      color: var(--dim);
+      font-size: 0.9rem;
+      text-align: center;
+      padding: 1rem;
+    }
+    
+    .clip-box p {
+      margin: 0.5rem 0;
+      font-size: 0.9rem;
+      color: var(--muted);
+      min-height: 60px;
+    }
+    
+    /* Back button */
+    #back-button {
+      margin: 1.5rem 0;
+      padding: 0.5rem 1.5rem;
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--dim);
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+    
+    #back-button:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+  <div id="wrapper">
+    
+    <div id="home-page">
+      <h1>激怒 - Raging Brigade</h1>
+      
+      <nav>
+        <a href="#" id="content-link">Content</a>
+        <a href="#" id="clips-link">Clips</a>
+      </nav>
+      
+      <p id="home-description">The Raging Brigade is a group dedicated to anti-degeneracy, and anti-religionophobia.</p>
+      
+      <div id="links">
+        <a class="link" href="https://youtube.com/@err103" target="_blank">YouTube</a>
+        <a class="link" href="https://t.me/ragingbrigade" target="_blank">Telegram</a>
+        <a class="link" href="https://discord.gg/DDJwqqAsf2" target="_blank">Discord</a>
+      </div>
+      
+      <div id="hint">Email contact on balcontact@vbv.cards</div>
+    </div>
+    
+   
+    <div id="content-section">
+      <div class="content-box">
+        <h3>Nuking Preview</h3>
+        <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iIzMzMyIvPgogIDx0ZXh0IHg9IjE2MCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjM1ZW0iPk1pc3Npb24gU3RhdGVtZW50PC90ZXh0Pgo8L3N2Zz4=" alt="Mission Image">
+        <p></p>
+      </div>
+      
+      <div class="content-box">
+        <h3>Nuking Preview 2</h3>
+        <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iIzQ0NCIvPgogIDx0ZXh0IHg9IjE2MCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjM1ZW0iPkNvcmUgUHJpbmNpcGxlczwvdGV4dD4KPC9zdmc+" alt="Principles Image">
+        <p></p>
+      </div>
+      
+      <div class="content-box">
+        <h3>Nuking Preview 3</h3>
+        <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iIzU1NSIvPgogIDx0ZXh0IHg9IjE2MCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjM1ZW0iPkNvbW11bml0eSBHdWlkZWxpbmVzPC90ZXh0Pgo8L3N2Zz4=" alt="Guidelines Image">
+        <p></p>
+      </div>
+      
+      <div class="content-box">
+        <h3>Nuking Preview 4</h3>
+        <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iIzY2NiIvPgogIDx0ZXh0IHg9IjE2MCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjM1ZW0iPkFjdGlvbiBQbGFuPC90ZXh0Pgo8L3N2Zz4=" alt="Action Plan Image">
+        <p></p>
+      </div>
+    </div>
+    
+    
+    <div id="clips-page">
+      <h2>激怒 - Clips</h2>
+      <div id="clips-container">
+        <div class="clip-box">
+          <div class="media-container">
+            <div class="media-placeholder">VIDEO CLIP #1</div>
+          </div>
+          <h3>???</h3>
+          <p></p>
+        </div>
+        
+        <div class="clip-box">
+          <div class="media-container">
+            <div class="media-placeholder">PHOTO GALLERY #1</div>
+          </div>
+          <h3>???</h3>
+          <p></p>
+        </div>
+        
+        <div class="clip-box">
+          <div class="media-container">
+            <div class="media-placeholder">ANIMATED GIF #1</div>
+          </div>
+          <h3>???</h3>
+          <p></p>
+        </div>
+        
+        <div class="clip-box">
+          <div class="media-container">
+            <div class="media-placeholder">VIDEO CLIP #2</div>
+          </div>
+          <h3>???</h3>
+          <p></p>
+        </div>
+        
+        <div class="clip-box">
+          <div class="media-container">
+            <div class="media-placeholder">PHOTO GALLERY #2</div>
+          </div>
+          <h3>???</h3>
+          <p></p>
+        </div>
+        
+        <div class="clip-box">
+          <div class="media-container">
+            <div class="media-placeholder">ANIMATED GIF #2</div>
+          </div>
+          <h3>???</h3>
+          <p></p>
+        </div>
+      </div>
+      <button id="back-button">Home</button>
+    </div>
+  </div>
+  
+  <audio id="background-audio" loop>
+    <source src="background.mp3" type="audio/mpeg">
+  </audio>
+
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      
-      document.title = "激怒 - Raging Brigade";
-
-      
-      const style = document.createElement("style");
-      style.textContent = `
-        :root{
-          --bg:#000;
-          --text:#ffffff;
-          --dim:#666666;
-          --muted: #cfcfcf;
-        }
-        html,body{
-          height:100%;
-          margin:0;
-          padding:0;
-          background:var(--bg);
-          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-          -webkit-font-smoothing:antialiased;
-          -moz-osx-font-smoothing:grayscale;
-        }
-
-        body{
-          display:flex;
-          align-items:center;
-          justify-content:center;
-          text-align:center;
-          color:var(--text);
-          overflow:hidden;
-          padding:2rem;
-          box-sizing:border-box;
-          flex-direction:column;
-        }
-
-        #wrapper{
-          max-width:900px;
-          width:100%;
-        }
-
-        h1 {
-          margin:0 0 0.6rem 0;
-          font-size:3rem;
-          font-weight:700;
-          line-height:1.05;
-          animation: flashDimWhite 0.2s linear infinite;
-          -webkit-user-select: none;
-          user-select: none;
-        }
-
-        
-        @keyframes flashDimWhite {
-          0%   { color: #ffffff; }
-          50%  { color: #666666; }
-          100% { color: #ffffff; }
-        }
-
-        
-        #description {
-          margin: 0.6rem auto 1.0rem auto;
-          color: var(--muted);
-          font-size: 1.05rem;
-          line-height: 1.5;
-          max-width: 72ch;
-          opacity: 0;
-          transform: translateY(6px);
-          animation: fadeInUp 1s ease forwards;
-          animation-delay: 0.6s;
-        }
-
-        @keyframes fadeInUp {
-          to { opacity: 1; transform: translateY(0); }
-        }
-
-        
-        #links {
-          margin-top: 0.8rem;
-          display:flex;
-          gap:1.0rem;
-          flex-direction:column;
-          align-items:center;
-          justify-content:center;
-          opacity:0;
-          animation: fadeIn 1s ease forwards;
-          animation-delay: 1.0s;
-        }
-
-        a.link {
-          color:var(--text);
-          text-decoration:underline;
-          font-size:1.1rem;
-          padding:0.2rem 0.4rem;
-        }
-
-        @keyframes fadeIn {
-          to { opacity:1; }
-        }
-
-        
-        #hint {
-          margin-top:1.2rem;
-          color:#8f8f8f;
-          font-size:0.85rem;
-          opacity:0;
-          animation: fadeIn 1s ease forwards;
-          animation-delay: 1.4s;
-        }
-
-        
-        audio { display:none; }
-      `;
-      document.head.appendChild(style);
-
-      
-      const audio = document.createElement("audio");
-      audio.src = "background.mp3";
-      audio.loop = true;
-      document.body.appendChild(audio);
-
+   
+      const audio = document.getElementById('background-audio');
       
       const startMusicOnInteraction = () => {
         audio.play().catch(()=>{});
@@ -132,61 +391,35 @@
       };
       document.addEventListener('click', startMusicOnInteraction);
       document.addEventListener('keydown', startMusicOnInteraction);
-
       
-      const wrapper = document.createElement('div');
-      wrapper.id = 'wrapper';
-
       
-      const title = document.createElement('h1');
-      title.textContent = "激怒 - Raging Brigade";
-      wrapper.appendChild(title);
-
+      const contentLink = document.getElementById('content-link');
+      const clipsLink = document.getElementById('clips-link');
+      const homePage = document.getElementById('home-page');
+      const contentSection = document.getElementById('content-section');
+      const clipsPage = document.getElementById('clips-page');
+      const backButton = document.getElementById('back-button');
       
-      const description = document.createElement('p');
-      description.id = 'description';
-      description.innerText = "The Raging Brigade is a group dedicated to anti-degeneracy, and anti-religionophobia.";
-      wrapper.appendChild(description);
-
-      
-      const linksDiv = document.createElement('div');
-      linksDiv.id = 'links';
-
-      const links = [
-        { text: "YouTube", url: "https://youtube.com/@err103" },
-        { text: "Telegram", url: "https://t.me/ragingbrigade" },
-        { text: "Discord", url: "https://discord.gg/DDJwqqAsf2" }
-      ];
-
-      links.forEach(item => {
-        const a = document.createElement('a');
-        a.className = 'link';
-        a.href = item.url;
-        a.textContent = item.text;
-        
-        linksDiv.appendChild(a);
+      contentLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        homePage.style.display = 'none';
+        contentSection.style.display = 'block';
+        clipsPage.style.display = 'none';
       });
-
-      wrapper.appendChild(linksDiv);
-
       
-      const hint = document.createElement('div');
-      hint.id = 'hint';
-      hint.textContent = "Email contact on balcontact@vbv.cards";
-      wrapper.appendChild(hint);
-
-      document.body.appendChild(wrapper);
-
+      clipsLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        homePage.style.display = 'none';
+        contentSection.style.display = 'none';
+        clipsPage.style.display = 'block';
+      });
       
-      window.__setDescriptionText = (txt) => {
-        description.textContent = String(txt || '');
-      };
-
-      
+      backButton.addEventListener('click', () => {
+        homePage.style.display = 'block';
+        contentSection.style.display = 'none';
+        clipsPage.style.display = 'none';
+      });
     });
   </script>
-</head>
-<body>
 </body>
 </html>
-
