@@ -147,6 +147,7 @@
       border-radius: 8px;
       width: 100%;
       display: none;
+      position: relative;
     }
     
     .content-box {
@@ -250,6 +251,28 @@
       min-height: 60px;
     }
     
+    /* Home button */
+    #content-home-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      padding: 0.3rem 0.8rem;
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--dim);
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      z-index: 10;
+    }
+    
+    #content-home-button:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #000;
+    }
+    
     /* Back button */
     #back-button {
       margin: 1.5rem 0;
@@ -294,6 +317,7 @@
     
    
     <div id="content-section">
+      <button id="content-home-button">Home</button>
       <div class="content-box">
         <h3>Nuking Preview</h3>
         <img src="https://images-ext-1.discordapp.net/external/xvU4xj3T2A-Pczt8HgMbUA77vuavK90AHHiG_mN-DSg/https/cdn.discordapp.com/icons/1421564037828837587/4232d00d9fe98e1b5c25e3331c63f09f.png?format=webp&quality=lossless&width=115&height=115" alt="1">
@@ -399,6 +423,7 @@
       const contentSection = document.getElementById('content-section');
       const clipsPage = document.getElementById('clips-page');
       const backButton = document.getElementById('back-button');
+      const contentHomeButton = document.getElementById('content-home-button');
       
       contentLink.addEventListener('click', (e) => {
         e.preventDefault();
@@ -419,10 +444,13 @@
         contentSection.style.display = 'none';
         clipsPage.style.display = 'none';
       });
+      
+      contentHomeButton.addEventListener('click', () => {
+        homePage.style.display = 'block';
+        contentSection.style.display = 'none';
+        clipsPage.style.display = 'none';
+      });
     });
   </script>
 </body>
 </html>
-
-
-
